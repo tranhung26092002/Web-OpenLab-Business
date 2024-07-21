@@ -1,0 +1,214 @@
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
+body {
+
+  @media only screen and (min-width: 768px) {
+    background-color: #f6f8fa;
+    min-width: fit-content;
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  min-height: 90vh;
+  width: 100;
+  background-color: #F6F8FA;
+
+  .main_container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+
+    .bg_left {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50%; // Sử dụng 50% chiều rộng để căn sang trái
+      max-width: 100%; // Đảm bảo không bị vượt quá kích thước của khung cha
+      height: auto;
+    }
+
+    .bg_right {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 50%; // Sử dụng 50% chiều rộng để căn sang phải
+      max-width: 100%; // Đảm bảo không bị vượt quá kích thước của khung cha
+      height: auto;
+    }
+
+    .login_container {
+      position: relative;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(87, 80, 80, 0.8);
+      z-index: 1;
+      width: 100%;
+      max-width: 400px;
+      margin-top: 5vh;
+      height: auto;
+
+      .login_main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        .login_logo {
+          width: 250px; /* Điều chỉnh kích thước theo nhu cầu */
+          height: auto;
+        
+          img {
+            width: 100%;
+            height: auto; /* Giữ tỷ lệ khung hình */
+            display: block;
+          }
+        }
+
+        .login_header {
+          width: 100%;
+          text-align: center;
+          margin-bottom: 10px;
+
+          .login_title {
+            p {
+              margin: 0;
+              color: #1b1c1e;
+              // font-size: 1.5rem;
+              font-size: 24px;
+              font-weight: bold;
+              text-align: center;
+            }
+          }
+        }
+
+        .login_form {
+          width: 100%;
+
+          form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: left;
+            padding: 20px 35px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+            .form_input {
+              width: 100%;
+              margin-bottom: 10px;
+
+              label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: #333333;
+              }
+
+              .input {
+                width: 100%;
+                height: 40px;
+                padding: 0 15px;
+                border: 1px solid #dcdcdc;
+                border-radius: 5px;
+                font-size: 1rem;
+                transition: border-color 0.3s ease;
+
+                &:focus {
+                  border-color: #007bff;
+                  outline: none;
+                }
+              }
+            }
+
+            .form_control {
+              display: flex;
+              width: 100%;
+              justify-content: space-between;
+
+              .checkbox_login {
+                align-items: center;
+
+                .remember {
+                  margin-right: 10px;
+                }
+
+                .cb_label {
+                  font-weight: normal;
+                  color: #555555;
+                }
+              }
+
+              a {
+                color: #007bff;
+                text-decoration: none;
+                font-size: 0.9rem;
+
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
+            }
+
+            .register_link {
+              display: flex;
+              justify-content: space-between;
+              width: 100%;
+              margin-top: 10px;
+
+              button {
+                flex: 1;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                margin: 0 5px;
+
+                &.bg_danger {
+                  background-color: #dc3545;
+                  color: white;
+
+                  &:hover {
+                    background-color: #c82333;
+                  }
+                }
+
+                &.bg_success {
+                  background-color: #28a745;
+                  color: white;
+
+                  &:hover {
+                    background-color: #218838;
+                  }
+                }
+
+                &.bg_secondary {
+                  background-color: #6c757d;
+                  color: white;
+
+                  &:hover {
+                    background-color: #5a6268;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }
+}

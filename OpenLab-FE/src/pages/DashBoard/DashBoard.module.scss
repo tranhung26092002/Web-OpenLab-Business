@@ -1,0 +1,287 @@
+// Đặt biến màu sắc và kích thước cho dễ quản lý
+$primary-color: #f88542;
+$sidebar-bg: #fff;
+$sidebar-text-color: #fff;
+$main-bg: #f4f4f4;
+$card-bg: #fff;
+$card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$sidebar-width: 250px;
+$header-height: 60px;
+
+// Container chính
+.container {
+    display: flex;
+    height: 100vh;
+
+    aside.sidebar {
+        width: $sidebar-width;
+        background-color: $sidebar-bg;
+        color: $sidebar-text-color;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        border-radius: 0.5rem;  // Bo góc cho toàn bộ sidebar
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  // Tạo hiệu ứng bóng đáy
+    
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+    
+            .logo {
+                display: flex;
+                align-items: center;
+    
+                img {
+                    height: 40px;
+                    border-radius: 50%;
+                    margin-right: 0.5rem;
+                }
+    
+                h2 {
+                    font-size: 1.5rem;
+                    margin: 0;
+                }
+            }
+    
+            .close {
+                cursor: pointer;
+                font-size: 1.5rem;
+                padding: 0.5rem;
+                border-radius: 50%;
+                transition: background-color 0.3s;
+    
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.1);
+                }
+            }
+        }
+    
+        .nav {
+            display: flex;
+            flex-direction: column;
+    
+            a {
+                display: flex;
+                align-items: center;
+                color: $sidebar-text-color;
+                text-decoration: none;
+                padding: 0.75rem 1rem;
+                border-radius: 0.5rem;
+                transition: background-color 0.3s;
+    
+                &:hover,
+                &.active {
+                    background-color: $primary-color;
+                }
+    
+                .material_symbols_sharp {
+                    font-size: 1.25rem;
+                    margin-right: 0.5rem;
+                }
+    
+                h3 {
+                    margin: 0;
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+    
+
+    main {
+        flex: 1;
+        background-color: $main-bg;
+        padding: 1rem;
+        overflow-y: auto;
+
+        .content_container {
+            display: block;
+            text-align: center;
+            background-color: $card-bg;
+            padding: 1rem;
+            box-shadow: $card-shadow;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+
+            .header_content {
+                margin-bottom: 10px;
+
+                h1 {
+                    margin: 0;
+                    font-weight: bold;
+                    color: red;
+                    font-size: 60px;
+                }
+            }
+
+            .connection_status {
+                margin-bottom: 10px;
+                h3 {
+                    margin: 0;
+                    font-size: 25px;
+                }
+
+                .status {
+                    font-weight: bold;
+                    color: $primary-color;
+                }
+            }
+        }
+
+        .insights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+
+            .insightItem {
+                background-color: $card-bg;
+                padding: 1rem;
+                box-shadow: $card-shadow;
+                border-radius: 0.5rem;
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .insightContent {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+
+                    .left {
+                        h3 {
+                            margin: 0;
+                            font-size: 1rem;
+                            color: black;
+                        }
+
+                        h1 {
+                            margin: 0;
+                            font-size: 2rem;
+                            font-weight: bold;
+                            color: black;
+                        }
+                        .ledContent{
+                            
+                        }
+                    }
+
+                    .icon {
+                        font-size: 2rem;
+                    }
+                }
+            }
+        }
+
+        .histories {
+            h2 {
+                margin-bottom: 1rem;
+            }
+        
+            .history_charts {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+        
+                .history_chart_item {
+                    flex: 1;
+                    min-width: 300px; // Đảm bảo mỗi biểu đồ có đủ không gian
+                    height: 300px; // Điều chỉnh chiều cao theo nhu cầu
+                    background-color: #fff;
+                    border-radius: 0.5rem;
+                    box-shadow: $card-shadow;
+        
+                    // Đảm bảo các biểu đồ có độ cao và chiều rộng đầy đủ
+                    .react-plotly.js-plot {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        
+            // Media query cho màn hình hẹp
+            @media (max-width: 768px) {
+                .history_charts {
+                    flex-direction: column; // Hiển thị các biểu đồ theo chiều dọc khi màn hình nhỏ hơn hoặc bằng 768px
+                }
+        
+                .history_chart_item {
+                    min-width: 100%; // Chiếm toàn bộ chiều ngang khi màn hình nhỏ
+                    height: 300px; // Điều chỉnh chiều cao theo nhu cầu
+                }
+            }
+        }
+        
+        .gauges {
+            h2 {
+                margin-bottom: 1rem;
+            }
+
+            .gauge_charts {
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+
+                .plot-container {
+                    width: 300px;
+                    height: 250px;
+                }
+            }
+        }
+    }
+}
+
+// Responsive Styles
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+
+        aside {
+            width: 100%;
+            position: relative;
+            box-shadow: none;
+
+            .top {
+                flex-direction: column;
+                align-items: flex-start;
+
+                .logo {
+                    margin-bottom: 1rem;
+                }
+            }
+
+            .nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+
+                a {
+                    margin: 0.5rem;
+                }
+            }
+        }
+
+        main {
+            padding: 0.5rem;
+        }
+
+        .insights,
+        .ledControl,
+        .histories,
+        .gauges {
+            .plot-container {
+                height: 200px;
+            }
+        }
+
+        .gauges {
+            .gauge_charts {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    }
+}

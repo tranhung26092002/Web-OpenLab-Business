@@ -1,0 +1,242 @@
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 140px;
+  padding-top: 30px;
+  border-bottom: 5px solid red;
+
+  @media (max-width: 740px) {
+    height: 250px;
+  }
+
+  .topRow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    /* Ẩn .search_form và .cart khi chiều rộng nhỏ hơn 1400px */
+    @media (max-width: 1400px) {
+
+      .search_form,
+      .cart {
+        display: none;
+      }
+    }
+
+    /* Hiển thị dropdownNavigation và ẩn navigation khi chiều rộng nhỏ hơn hoặc bằng 1199px */
+    @media (max-width: 1199px) {
+      .dropdownNavigation {
+        display: flex;
+      }
+
+      .navigation {
+        display: none;
+      }
+    }
+
+    /* Hiển thị navigation và ẩn dropdownNavigation khi chiều rộng lớn hơn hoặc bằng 1200px */
+    @media (min-width: 1200px) {
+      .dropdownNavigation {
+        display: none;
+      }
+
+      .navigation {
+        display: flex;
+      }
+    }
+
+    .logoLeft {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      img {
+        width: 250px;
+        /* Điều chỉnh kích thước theo nhu cầu */
+        height: auto;
+        /* Giữ tỷ lệ khung hình */
+      }
+    }
+
+    .navigation {
+      justify-content: center;
+      flex-grow: 1; // Độ mở rộng tối đa của phần tử
+
+      .link {
+        font-size: 1.2em;
+        color: #000;
+        text-decoration: none;
+        padding: 5px 10px;
+        margin: 0 5px;
+        position: relative;
+
+        &::after {
+          content: "";
+          display: block;
+          width: 0;
+          height: 3px;
+          background-color: red;
+          position: absolute;
+          bottom: -3px;
+          left: 50%;
+          transform: translateX(-50%);
+          transition: width 0.3s ease-in-out;
+        }
+
+        &:hover::after {
+          width: 100%;
+          left: 0;
+          transform: translateX(0%);
+        }
+      }
+
+      .active {
+        color: #ff962e;
+        /* Màu chữ khi liên kết được chọn */
+      }
+    }
+
+    .dropdownNavigation {
+      align-items: center;
+      margin-left: auto;
+      font-size: 1em;
+
+      .ant-dropdown-link {
+        display: flex;
+        align-items: center;
+        color: #000;
+        text-decoration: none;
+        margin-right: 20px;
+
+        &:hover {
+          color: #0a3b70;
+        }
+      }
+    }
+
+    .search_form {
+      display: flex;
+      margin-left: auto;
+      height: 40px;
+
+      .input_form {
+        padding: 8px;
+        width: 200px;
+        font-size: 15px;
+        border-radius: 5px 0 0 5px;
+        border: 2px solid #ccc;
+        outline: none;
+      }
+
+      .submit_form {
+        background-color: #8e8f90;
+        border: none;
+        padding: 8px;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        color: white;
+        transition: background-color 0.3s ease;
+
+        i {
+          margin-right: 5px;
+        }
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+
+      @media (max-width: 1400px) {
+        display: none;
+      }
+    }
+
+    .cart {
+      display: flex;
+      align-items: center;
+      font-size: 1.5em;
+      margin-left: 20px; // Khoảng cách từ logo trái
+
+      cursor: pointer;
+      color: #0056b3;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #8e8f90;
+      }
+
+      @media (max-width: 1400px) {
+        display: none;
+      }
+    }
+
+    .device {
+      margin-left: 10px;
+
+      button {
+        background-color: #ff962e;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #0a3b70;
+        }
+      }
+    }
+
+    .logoRight {
+      display: flex;
+      align-items: center;
+      margin-left: 20px; // Khoảng cách từ giỏ hàng
+
+      button {
+        background-color: #ff962e;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #0a3b70;
+        }
+      }
+
+      .ant_dropdown_link {
+        display: flex;
+        align-items: center;
+        color: #000;
+        text-decoration: none;
+        margin-right: 20px;
+
+        .avatar {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+
+        &:hover {
+          color: #0a3b70;
+        }
+      }
+    }
+  }
+}
