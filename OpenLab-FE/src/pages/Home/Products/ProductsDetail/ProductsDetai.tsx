@@ -5,7 +5,7 @@ import Footer from "../../../../components/Footer/Footer";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DispatchType, RootState } from "../../../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductDetail } from "../../../../redux/ProductReducer/ProductReducer";
+import { fetchCourseDetail } from "../../../../redux/ProductReducer/ProductReducer";
 
 
 
@@ -22,7 +22,7 @@ const ProductsDetail = () => {
     }
 
     useEffect(() => {
-        dispatch(fetchProductDetail(id));
+        dispatch(fetchCourseDetail(id));
     }, [dispatch, id])
 
     if (!data) {

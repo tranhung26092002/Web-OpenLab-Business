@@ -113,7 +113,7 @@ http.interceptors.response.use((response) => {
     // cau hinh cho tat ca loi nhan ve
     if (error.response?.status === 400 || error.response?.status === 404) {
         // chuyen huong ve trang chu
-        history.push("/");
+        history.push("/home");
     }
 
     if (error.response?.status === 401 || error.response?.status === 403) {

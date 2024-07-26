@@ -8,7 +8,7 @@ import { notification } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { DispatchType, RootState } from '../../../redux/configStore';
 import { history } from "../../../util/config";
-import { fetchAllProduct, searchProduct } from '../../../redux/ProductReducer/ProductReducer';
+import { fetchAllCourse, searchCourse } from '../../../redux/ProductReducer/ProductReducer';
 import { debounce } from 'lodash';
 import { Card, Row, Col, Button, List, Pagination, AutoComplete } from 'antd';
 
@@ -36,7 +36,7 @@ const Products = () => {
     // console.log("searchResults", searchResults);
     const debouncedSearch = debounce((term) => {
         if (term) {
-            dispatch(searchProduct(term));
+            dispatch(searchCourse(term));
         }
     }, 500)
 
@@ -93,7 +93,7 @@ const Products = () => {
     }
 
     useEffect(() => {
-        dispatch(fetchAllProduct());
+        dispatch(fetchAllCourse());
     }, [dispatch]);
 
     return (

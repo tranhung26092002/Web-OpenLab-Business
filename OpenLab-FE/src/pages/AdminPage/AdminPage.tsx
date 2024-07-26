@@ -9,7 +9,8 @@ import { DispatchType, RootState } from '../../redux/configStore';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../../redux/UserReducer/UserReducer';
 import UserManage from './UserManage';
-
+import UploadFileVideo from './UploadFileVideo';
+import UploadCourse from './UploadCourse';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -22,17 +23,8 @@ const AdminPage: React.FC = () => {
     const dispatch: DispatchType = useDispatch();
     const handleMenuClick = (item: any) => {
         switch (item.key) {
-            case "KhoiNguon":
-                setSelectedContent("IoT");
-                break;
-            case "KhoiThietBi":
-                setSelectedContent("NodeBlock");
-                break;
-            case "KhoiMang":
-                setSelectedContent("GatewayBlock");
-                break;
-            case "KhoiUngDung":
-                setSelectedContent("CloudBlock");
+            case "UploadCourse":
+                setSelectedContent("UploadCourse");
                 break;
             case "UploadVideo":
                 setSelectedContent("UploadVideo");
@@ -45,7 +37,9 @@ const AdminPage: React.FC = () => {
 
 
     const contentMap: { [key: string]: React.ReactNode } = {
-        
+        UploadCourse: <UploadCourse />,
+        UploadVideo: <UploadFileVideo />,
+        ManageUser: <UserManage />
     }
 
     const email = useSelector((state: RootState) => state.UserReducer.email);
@@ -81,16 +75,14 @@ const AdminPage: React.FC = () => {
             >
                 <div className="demo-logo-vertical" />
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} onClick={handleMenuClick}>
-                    <SubMenu key="IoT" icon={<UserOutlined />} title="IoT" >
-
-                        <Menu.Item key="KhoiThietBi">Lớp thiết bị</Menu.Item>
-                        <Menu.Item key="KhoiMang">Lớp mạng</Menu.Item>
-                        <Menu.Item key="KhoiUngDung">Lớp ứng dụng</Menu.Item>
-                    </SubMenu>
+                    <Menu.Item key="UploadCourse" icon={<UploadOutlined />}>
+                        Upload Course
+                    </Menu.Item>
                     
                     <Menu.Item key="UploadVideo" icon={<UploadOutlined />}>
                         Upload Video
                     </Menu.Item>
+
                     <Menu.Item key="ManageUser" icon={<UserOutlined />}>
                         Quản lý sinh viên
                     </Menu.Item>
