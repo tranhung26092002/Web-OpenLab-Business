@@ -11,6 +11,7 @@ import edu.ptit.openlab.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,21 +50,21 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     @Transactional
-    public BaseResponse createLesson(LessonDTO lessonDTO) {
-        if(!storageService.isVideoFileWithTika(lessonDTO.getUrlVideo())) {
+    public BaseResponse createLesson( MultipartFile file, String title, Long courseId) {
+        if(!storageService.isVideoFileWithTika(file)) {
             return new BaseResponse(400, "File is not a valid video type", null);
         }
 
-        String savedFilePath = storageService.saveFile(lessonDTO.getUrlVideo());
+        String savedFilePath = storageService.saveFile(file);
         try {
-            Course course = courseRepository.findById(lessonDTO.getCourseId()).orElse(null);
+            Course course = courseRepository.findById(courseId).orElse(null);
 
             if (course == null) {
                 return new BaseResponse(404, "Course not found", null);
             }
 
             Lesson lesson = new Lesson();
-            lesson.setTitleLesson(lessonDTO.getTitleLesson());
+            lesson.setTitleLesson(title);
             lesson.setUrlVideo(savedFilePath);
             lesson.setIsCompleted(false);
             lesson.setCourse(course);
@@ -78,26 +79,27 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     @Transactional
-    public BaseResponse updateLesson(Long id, LessonDTO lessonDTO) {
-        if(!storageService.isVideoFileWithTika(lessonDTO.getUrlVideo())){
+    public BaseResponse updateLesson(MultipartFile file, String title, Long lessonId, Long courseId) {
+        if(!storageService.isVideoFileWithTika(file)){
             return new BaseResponse(400, "File is not a valid video type", null);
         }
-        String savedFilePath = storageService.saveFile(lessonDTO.getUrlVideo());
+        String savedFilePath = storageService.saveFile(file);
 
         try {
-            Lesson lesson = lessonRepository.findById(id).orElse(null);
+            Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
             if (lesson == null) {
                 return new BaseResponse(404, "Lesson not found", null);
             }
 
-            Course course = courseRepository.findById(lessonDTO.getCourseId()).orElse(null);
+            Course course = courseRepository.findById(courseId).orElse(null);
             if (course == null) {
                 return new BaseResponse(404, "Course not found", null);
             }
 
-            lesson.setTitleLesson(lessonDTO.getTitleLesson());
+            lesson.setTitleLesson(title);
             lesson.setUrlVideo(savedFilePath);
-            lesson.setIsCompleted(lessonDTO.getIsCompleted());
+            lesson.setIsCompleted(false);
+
             lesson.setCourse(course);
 
             lessonRepository.save(lesson);
@@ -109,11 +111,11 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     @Transactional
-    public BaseResponse deleteLesson(Long id) {
+    public BaseResponse deleteLesson(Long lessonId) {
         try {
-            Optional<Lesson> optionalLesson = lessonRepository.findById(id);
+            Optional<Lesson> optionalLesson = lessonRepository.findById(lessonId);
             if (optionalLesson.isPresent()) {
-                lessonRepository.deleteById(id);
+                lessonRepository.deleteById(lessonId);
                 return new BaseResponse(200, "Lesson deleted successfully", null);
             } else {
                 return new BaseResponse(404, "Lesson not found", null);

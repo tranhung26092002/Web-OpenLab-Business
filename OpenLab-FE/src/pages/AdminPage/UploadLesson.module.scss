@@ -1,0 +1,55 @@
+.container {
+    padding: 16px;
+    background-color: #f9f9f9; /* Màu nền nhẹ nhàng cho trang */
+    border-radius: 8px; /* Bo tròn góc cho container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng để nổi bật */
+}
+
+.addButton {
+    margin-bottom: 16px; /* Khoảng cách dưới nút thêm */
+    font-size: 16px; /* Kích thước chữ của nút */
+}
+
+.titleCourse {
+    text-align: center; /* Canh giữa tiêu đề */
+    margin-bottom: 24px; /* Khoảng cách dưới tiêu đề */
+}
+
+.titleCourse h1 {
+    font-size: 28px; /* Kích thước chữ của tiêu đề */
+    font-weight: bold; /* Đậm chữ */
+    color: #333; /* Màu chữ tiêu đề */
+}
+
+.listContainer {
+    margin-top: 16px; /* Khoảng cách trên danh sách */
+}
+
+.listItem {
+    border: 1px solid #ddd; /* Đường viền nhẹ cho mỗi item */
+    border-radius: 8px; /* Bo tròn góc cho mỗi item */
+    padding: 16px; /* Khoảng cách trong item */
+    margin-bottom: 8px; /* Khoảng cách giữa các item */
+    background-color: #fff; /* Màu nền của item */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Hiệu ứng bóng nhẹ cho item */
+}
+
+.listItemMetaTitle {
+    font-size: 18px; /* Kích thước chữ của tiêu đề bài học */
+    font-weight: bold; /* Đậm chữ tiêu đề bài học */
+    color: #333; /* Màu chữ tiêu đề bài học */
+}
+
+.videoContainer {
+    margin-top: 8px; /* Khoảng cách giữa tiêu đề và video */
+}
+
+.itemActions {
+    display: flex;
+    gap: 8px; /* Khoảng cách giữa các nút hành động */
+}
+
+.modalForm {
+    max-width: 600px; /* Chiều rộng tối đa của modal */
+    margin: 0 auto; /* Canh giữa modal */
+}

@@ -11,7 +11,7 @@ import { logout } from '../../redux/UserReducer/UserReducer';
 const Header: React.FC = () => {
     const dispatch: DispatchType = useDispatch();
     const name = useSelector((state: RootState) => state.UserReducer.name);
-    const email = useSelector((state: RootState) => state.UserReducer.email);
+    // const email = useSelector((state: RootState) => state.UserReducer.email);
     const isLogin = useSelector((state: RootState) => state.UserReducer.isAuthenticated);
 
     useEffect(() => {
@@ -66,8 +66,8 @@ const Header: React.FC = () => {
             <Menu.Item key="products">
                 <NavLink to="/products">Sản phẩm</NavLink>
             </Menu.Item>
-            <Menu.Item key="dashboard">
-                <NavLink to="/dashboard">Báo giá</NavLink>
+            <Menu.Item key="price">
+                <NavLink to="/price">Báo giá</NavLink>
             </Menu.Item>
             <Menu.Item key="blog">
                 <NavLink to="/blog">Blog</NavLink>
@@ -107,7 +107,7 @@ const Header: React.FC = () => {
                             Sản phẩm
                         </NavLink><br />
                         <NavLink
-                            to="/sddssd"
+                            to="/price"
                             className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}
                         >
                             Báo giá
@@ -145,7 +145,7 @@ const Header: React.FC = () => {
                             <Dropdown overlay={userMenu}>
                                 <div className={styles.ant_dropdown_link} onClick={(e) => e.preventDefault()}>
                                     <Space>
-                                        {email}
+                                        {name}
                                         <DownOutlined />
                                     </Space>
                                 </div>

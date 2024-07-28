@@ -1,0 +1,132 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    gap: 30px;
+}
+
+.infor_tex {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+    h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+
+            div {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            i {
+                margin-right: 10px;
+                color: #555;
+            }
+
+            a {
+                text-decoration: none;
+                color: #333;
+            }
+
+            hr {
+                border: none;
+                border-top: 1px solid #ddd;
+                width: 100%;
+            }
+        }
+    }
+}
+
+.form {
+    flex: 2;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .basic_infor {
+        display: flex;
+        gap: 20px;
+
+        .form_control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    }
+
+    .chu_de,
+    .tin_nhan {
+        .form_control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    }
+
+    .tin_nhan .form_control {
+        height: 216px;
+    }
+
+    .send {
+        display: flex;
+        justify-content: center;
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background-color: #F14D5D;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: #081140;
+            }
+
+            i {
+                color: #fff;
+            }
+        }
+    }
+}
+
+::placeholder {
+    font-size: 16px;
+    color: #888;
+}

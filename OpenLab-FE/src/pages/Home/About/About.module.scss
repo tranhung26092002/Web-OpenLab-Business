@@ -1,0 +1,102 @@
+.container {
+    width: 100%;
+    padding: 0 20px;
+}
+
+.intro, .intro_detail, .field_active, .whyAISOFT, .giai_phap, .so_lieu {
+    margin-bottom: 40px;
+}
+
+.intro h1, .intro_detail h1, .field_active h2, .whyAISOFT h1, .giai_phap h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.intro_detail p, .field_active p, .whyAISOFT p, .giai_phap p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.field_active ol {
+    list-style: none;
+    padding: 0;
+}
+
+.field_active ol li {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.field_active a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.field_active a:hover {
+    text-decoration: underline;
+}
+
+.whyAISOFT {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.img_left {
+    flex: 1 1 40%;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.reasons_right {
+    flex: 1 1 60%;
+}
+
+.reason1, .reason2, .reason3 {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.icon_left {
+    width: 60px;
+    margin-right: 20px;
+}
+
+.text_reason_right {
+    flex: 1;
+}
+
+.giai_phap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content_left {
+    flex: 1 1 50%;
+}
+
+.img_right {
+    flex: 1 1 50%;
+    text-align: center;
+}
+
+.so_lieu ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+}
+
+.so_lieu li {
+    text-align: center;
+}
+
+.so_lieu h3 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.so_lieu p {
+    font-size: 1.2em;
+}

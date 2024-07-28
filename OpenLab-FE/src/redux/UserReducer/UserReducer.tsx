@@ -48,12 +48,14 @@ export interface ApiResponse {
 
 export interface User {
     id: number;
+    name: string,
     email: string;
     password: string;
     role: string;
 }
 
 export interface newUser {
+    name: string,
     email: string;
     password: string;
     role: string;
@@ -132,6 +134,7 @@ export const editUser = createAsyncThunk<ApiResponse, { userId: number, userData
     async ({ userId, userData }, thunkAPI) => {
         try {
             const params = new URLSearchParams();
+            params.append('username', userData.name);
             params.append('email', userData.email);
             params.append('password', userData.password);
             params.append('role', userData.role);
@@ -156,108 +159,98 @@ export const getAllUsers = createAsyncThunk<ApiResponse, void, { rejectValue: st
     }
 );
 
-export const deleteUser = createAsyncThunk<ApiResponse, number, { rejectValue: ApiResponse }>(
+export const deleteUser = createAsyncThunk<{ userId: number }, number, { rejectValue: string }>(
     'auth/deleteUser',
     async (userId, thunkAPI) => {
         try {
-            const response = await http.delete(`/auth/${userId}`);
-            return response.data;
+            await http.delete(`/auth/${userId}`);
+            return { userId }; // Return an object with userId only
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
         }
     }
 );
 
+
 const userReducer = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        // Thêm action logout
         logout: (state: AuthState) => {
-            // Xóa thông tin người dùng khỏi state
             state.token = null;
             state.isAuthenticated = false;
             state.userId = null;
             state.name = null;
             state.email = null;
             state.roles = null;
-            // Xóa token và thông tin người dùng khỏi local storage
             localStorage.removeItem('token');
             settings.clearStorage(ACCESS_TOKEN);
             settings.clearStorage(USER_LOGIN);
             window.location.reload();
-            // Thêm các bước khác nếu cần
             history.push("/login");
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(loginUser.pending, (state) => {
-            state.loading = true;
-        });
+        builder
+            .addCase(loginUser.pending, (state) => {
+                state.loading = true;
+            })
+            
+            .addCase(loginUser.fulfilled, (state, action: PayloadAction<LoginResponse>) => {
+                state.loading = false;
+                state.isAuthenticated = true;
+                state.token = action.payload.token;
+                state.userId = action.payload.userId;
+                state.roles = action.payload.roles;
+                state.name = action.payload.name;
+                state.email = action.payload.email;
+                settings.setStorage(ACCESS_TOKEN, action.payload.token);
+                settings.setStorageJson(USER_LOGIN, {
+                    token: action.payload.token,
+                    userId: action.payload.userId,
+                    name: action.payload.name,
+                    roles: action.payload.roles,
+                    email: action.payload.email,
+                });
+                history.push("/admin");
+            })
 
-        builder.addCase(loginUser.fulfilled, (state, action: PayloadAction<LoginResponse>) => {
-            state.loading = false;
-            state.isAuthenticated = true;
+            .addCase(loginUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload?.message || action.error.message;
+            })
 
-            // Lưu token vào state và ACCESS_TOKEN
-            state.token = action.payload.token;
-            state.userId = action.payload.userId;
-            state.roles = action.payload.roles;
-            state.name = action.payload.name;
-            state.email = action.payload.email;
-            settings.setStorage(ACCESS_TOKEN, action.payload.token);
-            // Lưu toàn bộ thông tin API trả về vào userLogin
-            settings.setStorageJson(USER_LOGIN, {
-                token: action.payload.token,
-                userId: action.payload.userId,
-                name: action.payload.name,
-                roles: action.payload.roles,
-                email: action.payload.email,
-            });
-            history.push("/home");
+            .addCase(registerUser.fulfilled, (state, action: PayloadAction<ApiResponse>) => {
+                if (action.payload.status === 200) {
+                    state.users.push(action.payload.data);
+                }
+            })
 
-        });
-
-        builder.addCase(loginUser.rejected, (state, action) => {
-            state.loading = false;
-            if (action.payload) {
-                state.error = action.payload.message;
-            } else if (action.error) {
-                state.error = action.error.message;
-            }
-        });
-
-        builder.addCase(registerUser.fulfilled, (state, action: PayloadAction<ApiResponse>) => {
-            if (action.payload.status === 200) {
+            .addCase(addUser.fulfilled, (state, action: PayloadAction<ApiResponse>) => {
                 state.users.push(action.payload.data);
-            }
-        });
+            })
 
-        builder.addCase(addUser.fulfilled, (state, action: PayloadAction<ApiResponse>) => {
-            state.users.push(action.payload.data);
-        });
+            .addCase(editUser.fulfilled, (state, action: PayloadAction<ApiResponse>) => {
+                const index = state.users.findIndex(user => user.id === action.payload.data.id);
+                if (index !== -1) {
+                    state.users[index] = action.payload.data;
+                }
+                state.loading = false;
+            })
 
-        builder.addCase(editUser.fulfilled, (state, action: PayloadAction<ApiResponse>) => {
-            const index = state.users.findIndex(user => user.id === action.payload.data.id);
-            if (index !== -1) {
-                state.users[index] = action.payload.data;
-            }
-            state.loading = false;
-        });
+            .addCase(getAllUsers.fulfilled, (state, action: PayloadAction<ApiResponse>) => {
+                if (Array.isArray(action.payload.data)) {
+                    state.users = action.payload.data;
+                }
+            })
 
-        builder.addCase(getAllUsers.fulfilled, (state, action: PayloadAction<ApiResponse>) => {
-            if (Array.isArray(action.payload.data)) {
-                state.users = action.payload.data;
-            }
-        })
-        builder.addCase(deleteUser.fulfilled, (state, action: PayloadAction<ApiResponse>) => {
-            console.log("action", action.payload);
-            const index = state.users.findIndex(user => user.id === action.payload.data.id);
-            if (index !== -1) {
-                state.users.splice(index, 1);
-            }
-            // state.loading = false;
-        });
+            .addCase(deleteUser.fulfilled, (state, action: PayloadAction<{ userId: number }>) => {
+                if (state.users) {
+                    // Update the users state by filtering out the user with the given userId
+                    state.users = state.users.filter(user => user.id !== action.payload.userId);
+                }
+            });
+            
     },
 });
 

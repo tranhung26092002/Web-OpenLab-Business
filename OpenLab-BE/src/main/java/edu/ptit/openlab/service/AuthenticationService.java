@@ -37,7 +37,7 @@ public class AuthenticationService {
     }
     //    private final Key JWT_SECRET = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     // Thời gian có hiêu lực của jwt (10 ngày)
-    private final long JWT_EXPIRATION = 864000000L;
+    private final long JWT_EXPIRATION = 86400000L;
 
     public AuthenticationResponse login(String email, String password) {
         User user = userRepository.findByEmail(email);
@@ -52,7 +52,7 @@ public class AuthenticationService {
         throw new BadCredentialsException("Invalid email or password");
     }
 
-    public User register(String email, String password, String role) throws IllegalAccessException {
+    public User register(String username, String email, String password, String role) throws IllegalAccessException {
         //Kiểm tra xem email tồn tại không
         Optional<User> existingUser = Optional.ofNullable(userRepository.findByEmail(email));
         if(existingUser.isPresent()){
@@ -64,6 +64,8 @@ public class AuthenticationService {
 
         // Tao nguoi dung moi va luu vao co so du lieu
         User newUser = new User();
+
+        newUser.setName(username);
         newUser.setEmail(email);
         newUser.setPassword(encryptedPassword);
 

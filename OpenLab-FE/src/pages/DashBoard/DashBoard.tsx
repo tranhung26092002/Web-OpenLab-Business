@@ -10,7 +10,7 @@ const DashBoard: React.FC = () => {
     const [humidity, setHumidity] = useState<number>(0);
     const [gas, setGas] = useState<number>(0);
     const [led, setLed] = useState<string>('off'); // Trạng thái của đèn LED ('on' hoặc 'off')
-    const [buzzer, setBuzzer] = useState<number>(0);
+    // const [buzzer, setBuzzer] = useState<number>(0);
     const [connectionStatus, setConnectionStatus] = useState<string>('Disconnected');
     const [temperatureHistory, setTemperatureHistory] = useState<number[]>([]);
     const [humidityHistory, setHumidityHistory] = useState<number[]>([]);
@@ -34,13 +34,13 @@ const DashBoard: React.FC = () => {
                 const humidityValue = parseFloat(data.humidity).toFixed(2);
                 const gasValue = parseFloat(data.gas).toFixed(2);
                 const ledValue = data.led || 'off';
-                const buzzerValue = data.buzzer || 0;
+                // const buzzerValue = data.buzzer || 0;
 
                 setTemperature(parseFloat(temperatureValue));
                 setHumidity(parseFloat(humidityValue));
                 setGas(parseFloat(gasValue));
                 setLed(ledValue);
-                setBuzzer(buzzerValue);
+                // setBuzzer(buzzerValue);
 
                 updateTemperatureHistory(parseFloat(temperatureValue));
                 updateHumidityHistory(parseFloat(humidityValue));

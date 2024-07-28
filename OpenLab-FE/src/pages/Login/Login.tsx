@@ -10,9 +10,10 @@ import { notification } from 'antd';
 type Props = {};
 
 export const Login: React.FC<Props> = () => {
+    const [username, setUserName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [remember, setRemember] = useState<boolean>(false);
+    // const [remember, setRemember] = useState<boolean>(false);
     const [isRegister, setIsRegister] = useState<boolean>(false); // State to toggle between login and register
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const dispatch: DispatchType = useDispatch();
@@ -58,6 +59,7 @@ export const Login: React.FC<Props> = () => {
             return;
         }
         const registerData = {
+            name: username,
             email: email,
             password: password,
             role: "customer"
@@ -89,7 +91,7 @@ export const Login: React.FC<Props> = () => {
 
     return (
         <Fragment>
-            <Header/>
+            <Header />
             <div className={styles.container}>
                 <div className={styles.main_container}>
                     <div className={styles.bg_left}>
@@ -98,19 +100,19 @@ export const Login: React.FC<Props> = () => {
 
                     <div className={styles.login_container}>
                         <div className={styles.login_main}>
-                            <div className={styles.login_logo}>
+                            {/* <div className={styles.login_logo}>
                                 <img src={require('../../assets/img/Logo-02.png')} alt="logo_main" />
-                            </div>
-
-                            <div className={styles.login_header}>
-                                <div className={styles.login_title}>
-                                    <p>Login</p>
-                                </div>
-                            </div>
+                            </div> */}
 
                             <div className={styles.login_form}>
                                 {!isRegister ? (
                                     <form onSubmit={handleLoginSubmit}>
+                                        <div className={styles.login_header}>
+                                            <div className={styles.login_title}>
+                                                <p>Login</p>
+                                            </div>
+                                        </div>
+
                                         <div className={styles.form_input}>
                                             <label>User:</label>
                                             <input
@@ -138,8 +140,8 @@ export const Login: React.FC<Props> = () => {
                                                 <input
                                                     className={styles.remember}
                                                     type="checkbox"
-                                                    onClick={(e) => setRemember(true)}
-                                                    required
+                                                    // onClick={(e) => setRemember(true)}
+                                                    
                                                 />
                                                 <label className={styles.cb_label}>Remember me</label>
                                             </div>
@@ -161,6 +163,23 @@ export const Login: React.FC<Props> = () => {
                                     </form>
                                 ) : (
                                     <form onSubmit={handleRegisterSubmit}>
+                                        <div className={styles.login_header}>
+                                            <div className={styles.login_title}>
+                                                <p>Register</p>
+                                            </div>
+                                        </div>
+
+                                        <div className={styles.form_input}>
+                                            <label>User Name:</label>
+                                            <input
+                                                className={styles.input}
+                                                type="text"
+                                                value={username}
+                                                onChange={(e) => setUserName(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+
                                         <div className={styles.form_input} >
                                             <label>Email:</label>
                                             <input
@@ -212,7 +231,7 @@ export const Login: React.FC<Props> = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </Fragment>
     );
 };

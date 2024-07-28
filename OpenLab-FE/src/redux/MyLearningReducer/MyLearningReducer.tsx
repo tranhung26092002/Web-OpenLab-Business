@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { history, http } from "../../util/config";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { http } from "../../util/config";
 
 export interface MyProductItem {
     id: number,
@@ -61,7 +61,7 @@ const initialState: MyProductState = {
         data: []
     },
     status: 'idle',
-    error: null || "Unknown",
+    error: null,
     currentPage: 1,
     totalItems: 0,
     itemsPerPage: 2,

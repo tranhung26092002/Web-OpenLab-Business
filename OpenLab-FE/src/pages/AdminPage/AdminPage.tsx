@@ -1,55 +1,58 @@
 import React, { useState } from 'react';
-import { DownOutlined, MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined, WifiOutlined } from '@ant-design/icons';
+import { DownOutlined, MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Layout, Menu, Space, theme } from 'antd';
-import SubMenu from 'antd/es/menu/SubMenu';
-
-// import styles from './Header.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { DispatchType, RootState } from '../../redux/configStore';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../../redux/UserReducer/UserReducer';
 import UserManage from './UserManage';
-import UploadFileVideo from './UploadFileVideo';
+import UploadLesson from './UploadLesson';
 import UploadCourse from './UploadCourse';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 const AdminPage: React.FC = () => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
     const [collapsed, setCollapsed] = useState(false);
-    const [selectedContent, setSelectedContent] = useState('');
+    const [selectedContent, setSelectedContent] = useState('UploadCourse'); // Set default content to UploadCourse
+    const [courseId, setCourseId] = useState<number | null>(null);
+    const [courseTitle, setCourseTitle] = React.useState<string>('');
     const dispatch: DispatchType = useDispatch();
+
+    // Handle menu item click
     const handleMenuClick = (item: any) => {
-        switch (item.key) {
-            case "UploadCourse":
-                setSelectedContent("UploadCourse");
-                break;
-            case "UploadVideo":
-                setSelectedContent("UploadVideo");
-                break;
-            default:
-                setSelectedContent(item.key);
-                break;
-        }
+        setSelectedContent(item.key);
     }
 
+    // Handle adding a lesson
+    const handleAddLesson = (id: number, titleCourse: string) => {
+        setCourseTitle(titleCourse);
+        setCourseId(id);
+        setSelectedContent('UploadLesson');
+    }
 
+    // Content map for rendering
     const contentMap: { [key: string]: React.ReactNode } = {
-        UploadCourse: <UploadCourse />,
-        UploadVideo: <UploadFileVideo />,
-        ManageUser: <UserManage />
+        UploadCourse: <UploadCourse onAddLesson={handleAddLesson} />,
+        ManageUser: <UserManage />,
+        UploadLesson: courseId ? <UploadLesson courseId={courseId} titleCourse={courseTitle} /> : <div>No Lesson ID</div>,
     }
 
+    // Get user email from the Redux store
     const email = useSelector((state: RootState) => state.UserReducer.email);
+
+    // Logout function
     const handLogout = () => {
         dispatch(logout());
     }
+
+    // Dropdown menu
     const menu = (
         <Menu>
             <Menu.Item key="home">
-                <NavLink to="/home" className="text-decoration-none" >Trang Home</NavLink>
+                <NavLink to="/home" className="text-decoration-none">Trang Home</NavLink>
             </Menu.Item>
             <Menu.Item key="chat">
                 <NavLink to="/boxchat" className="text-decoration-none">Trợ giảng lab</NavLink>
@@ -63,9 +66,10 @@ const AdminPage: React.FC = () => {
     return (
         <Layout>
             <Sider
-                trigger={null} collapsible collapsed={collapsed}
+                trigger={null}
+                collapsible
+                collapsed={collapsed}
                 breakpoint="lg"
-                // collapsedWidth="0"
                 onBreakpoint={(broken) => {
                     console.log(broken);
                 }}
@@ -74,12 +78,17 @@ const AdminPage: React.FC = () => {
                 }}
             >
                 <div className="demo-logo-vertical" />
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} onClick={handleMenuClick}>
+                <Menu
+                    theme="dark"
+                    mode="inline"
+                    selectedKeys={[selectedContent]} 
+                    onClick={handleMenuClick}
+                >
                     <Menu.Item key="UploadCourse" icon={<UploadOutlined />}>
                         Upload Course
                     </Menu.Item>
-                    
-                    <Menu.Item key="UploadVideo" icon={<UploadOutlined />}>
+
+                    <Menu.Item key="UploadLesson" icon={<UploadOutlined />}>
                         Upload Video
                     </Menu.Item>
 
@@ -87,8 +96,6 @@ const AdminPage: React.FC = () => {
                         Quản lý sinh viên
                     </Menu.Item>
                 </Menu>
-
-
             </Sider>
             <Layout>
                 <Header
@@ -118,11 +125,9 @@ const AdminPage: React.FC = () => {
                             </Space>
                         </a>
                     </Dropdown>
-
                 </Header>
-                {/* <Header style={{ padding: 0, background: colorBgContainer }} /> */}
                 <Content style={{ margin: '24px 16px 0' }}>
-                    <div style={{ padding: 24, height: '100vh', background: colorBgContainer }}>
+                    <div style={{ padding: 24, minHeight: '100vh', background: colorBgContainer }}>
                         {contentMap[selectedContent]}
                     </div>
                 </Content>

@@ -42,7 +42,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequestDTO request){
         try {
-            User user = authenticationService.register(request.getEmail(), request.getPassword(), request.getRole());
+            User user = authenticationService.register(request.getUsername(), request.getEmail(), request.getPassword(), request.getRole());
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (IllegalArgumentException | IllegalAccessException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -67,12 +67,12 @@ public class AuthController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<BaseResponse> updateUser(@PathVariable Long userId,
-                                                   @RequestParam(required = false) String name,
+                                                   @RequestParam(required = false) String username,
                                                    @RequestParam(required = false) String email,
                                                    @RequestParam(required = false) String password,
                                                    @RequestParam(required = false) String role
     ){
-        User updateUser = authenticationService.updateUser(userId, name, email, password, role);
+        User updateUser = authenticationService.updateUser(userId, username, email, password, role);
         BaseResponse baseResponse = new BaseResponse();
         try {
             baseResponse.setStatus(200);

@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { DispatchType, RootState } from "../../../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCourseDetail } from "../../../../redux/ProductReducer/ProductReducer";
-
+import { DOMAIN_VIDEO } from '../../../../../src/util/config';
 
 
 const ProductsDetail = () => {
@@ -87,18 +87,22 @@ const ProductsDetail = () => {
                 </div>
 
                 <div className={styles.video_course}>
-                    <div className={styles.aspect_video}>
-                        <iframe
-                            // width="560"
-                            // height="315"
-                            src={data.lessons[0].urlVideo}
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerPolicy="strict-origin-when-cross-origin"
-                            allowFullScreen>
-                        </iframe>
-                    </div>
+                    {data?.lessons?.[0]?.urlVideo ? (
+                        <div className={styles.videoContainer}>
+                            <div className={styles.aspect_video}>
+                                <video
+                                    title="YouTube video player"
+                                    controls
+                                    src={`${DOMAIN_VIDEO}/api/upload/video/${data.lessons[0].urlVideo}`}
+                                    style={{ border: '1px solid #ddd', borderRadius: '4px' }}
+                                >
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    ) : (
+                        'Chưa có video'
+                    )}
 
                     <div className={styles.detail_video}>
                         <button onClick={() => handleDetail(id)}>
@@ -106,9 +110,7 @@ const ProductsDetail = () => {
                         </button>
                     </div>
                     <div className={styles.content_video}>
-                        <h3>
-                            Khoá học bao gồm
-                        </h3>
+                        <h3>Khoá học bao gồm</h3>
                         <ul>
                             <li>
                                 <span>13 bài giảng</span>

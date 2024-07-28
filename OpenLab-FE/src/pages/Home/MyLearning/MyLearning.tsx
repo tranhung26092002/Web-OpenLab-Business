@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { notification, Card, Row, Col, Input, Button, List, Pagination, AutoComplete } from 'antd';
+import { notification, Card, Row, Col, Button, List, Pagination, AutoComplete } from 'antd';
 import { debounce } from 'lodash';
 
 import { DispatchType, RootState } from '../../../redux/configStore';
@@ -9,7 +9,6 @@ import { addCourse, fetchAllMyProduct, searchMyProduct } from '../../../redux/My
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer';
 import styles from './Mylearning.module.scss';
-import { history } from "../../../util/config";
 
 const MyLearning: React.FC = () => {
     const navigate = useNavigate();

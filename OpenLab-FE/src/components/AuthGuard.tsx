@@ -8,10 +8,10 @@ interface AuthGuardProps {
 
 const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
     const token = settings.getStore(ACCESS_TOKEN);
-    // if (!token) {
-    //     // Nếu không có token, chuyển hướng đến trang login
-    //     return <Navigate to="/login" />;
-    // }
+    if (!token) {
+        // Nếu không có token, chuyển hướng đến trang login
+        return <Navigate to="/login" />;
+    }
     return <>{children}</>;
 };
 

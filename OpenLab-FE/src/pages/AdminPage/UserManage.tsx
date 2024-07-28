@@ -5,12 +5,11 @@ import { DispatchType, RootState } from '../../redux/configStore';
 import { useDispatch, useSelector } from 'react-redux';
 import { Option } from 'antd/es/mentions';
 
-type Props = {}
 
 const UserManage = () => {
     const dispatch: DispatchType = useDispatch();
     const users = useSelector((state: RootState) => state.UserReducer.users);
-    const loading = useSelector((state: RootState) => state.UserReducer.loading);
+    // const loading = useSelector((state: RootState) => state.UserReducer.loading);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
 
@@ -61,6 +60,7 @@ const UserManage = () => {
         setCurrentEditingUser(user);
         setIsEditModalVisible(true);
         form.setFieldsValue({
+            username: user.name,
             email: user.email,
             password: '',
             vaiTro: user.role,
@@ -149,14 +149,14 @@ const UserManage = () => {
             key: 'id',
         },
         {
+            title: 'User',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
-        },
-        {
-            title: 'Password',
-            dataIndex: 'password',
-            key: 'password',
         },
         {
             title: 'Vai trò',
@@ -191,6 +191,9 @@ const UserManage = () => {
             <Table dataSource={users} columns={columns} rowKey="id" />
             <Modal title="Add User" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <Form form={form} layout="vertical" name="userForm">
+                    <Form.Item name="username" label="User Name" rules={[{ required: true, message: 'Please input the username!' }]}>
+                        <Input />
+                    </Form.Item>
                     <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Please input the email!' }]}>
                         <Input />
                     </Form.Item>
@@ -208,6 +211,9 @@ const UserManage = () => {
 
             <Modal title="Edit User" visible={isEditModalVisible} onOk={handleEditOk} onCancel={handleEditCancel}>
                 <Form form={form} layout="vertical" name="userEditForm">
+                    <Form.Item name="username" label="User Name" rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
                     <Form.Item name="email" label="Email" rules={[{ required: true }]}>
                         <Input />
                     </Form.Item>

@@ -5,11 +5,13 @@ import { DispatchType, RootState } from '../../redux/configStore';
 import { UploadOutlined } from '@ant-design/icons';
 import { createCourse, deleteCourse, fetchAllCourse, updateCourse } from '../../redux/ProductReducer/ProductReducer';
 
-const UploadCourse: React.FC = () => {
+interface UploadCourseProps {
+    onAddLesson: (id: number, titleCourse: string) => void; // Nhận tham số id
+}
+
+const UploadCourse: React.FC<UploadCourseProps> = ({ onAddLesson }) => {
     const dispatch = useDispatch<DispatchType>();
     const courseData = useSelector((state: RootState) => Array.isArray(state.ProductReducer.items) ? state.ProductReducer.items : []);
-    console.log("courseData", courseData);
-    
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
     const [editingId, setEditingId] = useState<number | null>(null);
@@ -17,9 +19,8 @@ const UploadCourse: React.FC = () => {
     const courseStatus = useSelector((state: RootState) => state.ProductReducer.status);
     const courseError = useSelector((state: RootState) => state.ProductReducer.error);
 
-    // Trạng thái phân trang
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(4); // Hoặc số lượng mục trên mỗi trang bạn muốn
+    const [itemsPerPage] = useState(4);
 
     useEffect(() => {
         if (courseStatus === 'succeeded') {
@@ -40,8 +41,6 @@ const UploadCourse: React.FC = () => {
     }, [dispatch]);
 
     const handleAddOrEdit = (values: any) => {
-        console.log('Received values:', values);
-
         const thumbnailFile = values.thumbnail && values.thumbnail[0] && values.thumbnail[0].originFileObj;
 
         if (thumbnailFile) {
@@ -50,11 +49,11 @@ const UploadCourse: React.FC = () => {
                 title: values.title,
                 thumbnail: thumbnailFile,
                 createdBy: values.createdBy,
-                typeProduct: values.typeProduct,
+                typeCourse: values.typeCourse,
                 isPublish: values.isPublish,
                 description: values.description,
                 originalPrice: values.originalPrice
-            }
+            };
 
             if (editingId) {
                 dispatch(updateCourse({ id: String(editingId), data: data }))
@@ -109,12 +108,14 @@ const UploadCourse: React.FC = () => {
             });
     };
 
-    // Hàm xử lý sự kiện phân trang
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
 
-    // Xác định dữ liệu được phân trang
+    const handleAddLesson = (courseId: number, titleCourse: string) => {
+        onAddLesson(courseId, titleCourse);
+    };
+
     const paginatedData = courseData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     return (
@@ -149,10 +150,19 @@ const UploadCourse: React.FC = () => {
                                             isPublish: record.isPublish,
                                             description: record.description,
                                             originalPrice: record.originalPrice,
-                                            // thumbnail sẽ được xử lý riêng
+                                            thumbnail: [{
+                                                uid: record.id,
+                                                name: 'thumbnail.png',
+                                                status: 'done',
+                                                url: record.thumbnail
+                                            }]
                                         });
                                         setIsModalVisible(true);
                                     }}>Update</Button>
+                                <Button
+                                    type="default"
+                                    style={{ marginRight: '10px' }}
+                                    onClick={() => handleAddLesson(record.id, record.title)}>Add Lesson</Button>
                                 <Popconfirm
                                     title="Are you sure you want to delete this entry?"
                                     onConfirm={() => handleDelete(String(record.id))}
@@ -213,8 +223,7 @@ const UploadCourse: React.FC = () => {
                             listType="picture"
                             maxCount={1}
                             beforeUpload={(file: UploadFile) => {
-                                console.log("File được chọn:", file);
-                                return false; // Ngăn chặn việc gửi yêu cầu HTTP
+                                return false; // Prevent automatic upload
                             }}
                         >
                             <Button icon={<UploadOutlined />}>Upload</Button>

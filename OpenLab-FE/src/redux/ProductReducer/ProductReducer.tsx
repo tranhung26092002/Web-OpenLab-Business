@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { history, http } from "../../util/config";
 
 export interface CourseItem {
@@ -42,7 +42,7 @@ export interface dataCourse {
     title: string,
     thumbnail: File,
     createdBy: string,
-    typeProduct: string,
+    typeCourse: string,
     isPublish: boolean,
     description: string,
     originalPrice: number
@@ -54,7 +54,7 @@ export interface UpdatePayload {
         title: string,
         thumbnail: File,
         createdBy: string,
-        typeProduct: string,
+        typeCourse: string,
         isPublish: boolean,
         description: string,
         originalPrice: number
@@ -102,7 +102,7 @@ export const createCourse = createAsyncThunk(
         formData.append('title', data.title);
         formData.append('thumbnail', data.thumbnail);
         formData.append('createdBy', data.createdBy);
-        formData.append('typeProduct', data.typeProduct);
+        formData.append('typeCourse', data.typeCourse);
         formData.append('isPublish', data.isPublish ? 'true' : 'false');
         formData.append('description', data.description);
         formData.append('originalPrice', data.originalPrice.toString());
@@ -129,7 +129,7 @@ export const updateCourse = createAsyncThunk(
         formData.append('title', dataUpdate.title);
         formData.append('thumbnail', dataUpdate.thumbnail);
         formData.append('createdBy', dataUpdate.createdBy);
-        formData.append('typeProduct', dataUpdate.typeProduct);
+        formData.append('typeCourse', dataUpdate.typeCourse);
         formData.append('isPublish', dataUpdate.isPublish ? 'true' : 'false');
         formData.append('description', dataUpdate.description);
         formData.append('originalPrice', dataUpdate.originalPrice.toString());
